@@ -1,9 +1,13 @@
 
 require "pry"
-
+require_relative "board"
 
 class Robot
   VALID_ACTIONS = ["PLACE", "MOVE", "LEFT", "RIGHT", "REPORT"]
+
+  def initialize
+    @board = Board.new
+  end
 
   def execute(command)
 
@@ -34,7 +38,7 @@ class Robot
 
   def report
     puts "==========OUTPUT============"
-    puts "Position: #{@position}"
+    puts "Position: #{@board.position}"
     puts "Orientation: #{@orientation}"
     puts "============================="
   end
@@ -49,17 +53,28 @@ class Robot
     y = tokens[1].to_i
     orientation = tokens[2]
 
-    place_robot(x, y)
+    @board.place(x, y)
     face(orientation)
   end
 
   def move
+    return "Ignored, robot is not placed properly yet." if !@board.placed?
+
+    new_x = @board.position[:x] + vector[:x]
+    new_y = @board.position[:y] + vector[:y]
+    if @board.place(new_x, new_y)
+      nil
+    else
+      "Ignored MOVE action, it's out of boundary"
+    end
   end
 
   def left
+    @orientation = { "NORTH": "WEST", "WEST": "SOUTH", "SOUTH": "EAST", "EAST": "NORTH" }[@orientation]
   end
 
   def right
+    @orientation = { "NORTH": "EAST", "EAST": "SOUTH", "SOUTH": "WEST", "WEST": "NORTH" }[@orientation]
   end
 
   def face(orientation)
@@ -70,23 +85,19 @@ class Robot
     end
   end
 
-
-  # Table
-
-  def place_robot(x, y)
-    @position = {x: x, y: y} if valid_position?(x, y)
-  end
-
-  def placed?
-    @position != nil
-  end
-
-  def position
-    @position
-  end
-
-  def valid_position?(x, y)
-    x >=0 && x <= 4 && y >=0 && y <= 4
+  def vector
+    case @orientation
+    when "NORTH"
+      { x: 0, y: 1 }
+    when "SOUTH"
+      { x: 0, y: -1 }
+    when "EAST"
+      { x: 1, y: 0 }
+    when "WEST"
+      { x: -1, y: 0 }
+    else
+      raise "Unknow orientation: #{@orientation}"
+    end
   end
 end
 
