@@ -10,7 +10,6 @@ class Simulator
   end
 
   def execute(command)
-    # TODO: check if command is empty
     tokens = command.split(/\s+/)
     action = tokens.first
     arguments = tokens.last
@@ -38,13 +37,15 @@ class Simulator
   private
 
   def place(arguments)
-    # TODO: Check args length, orientation
     tokens = arguments.split(/,/)
+
+    return if tokens.size != 3
+
     x = tokens[0].to_i
     y = tokens[1].to_i
     orientation = tokens[2].downcase.to_sym
 
-    if @board.place(x, y) && @robot.face!(orientation)
+    if @board.place!(x, y) && @robot.face!(orientation)
       nil
     else
       # Ignored
@@ -56,7 +57,7 @@ class Simulator
 
     new_x = @board.position[:x] + vector[:x]
     new_y = @board.position[:y] + vector[:y]
-    if @board.place(new_x, new_y)
+    if @board.place!(new_x, new_y)
       nil
     else
       # Ignore, out of boundary
@@ -95,5 +96,4 @@ class Simulator
   def placed?
     @board.placed? && !@robot.orientation.nil?
   end
-
 end
