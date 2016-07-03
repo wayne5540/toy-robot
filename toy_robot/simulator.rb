@@ -15,26 +15,30 @@ class Simulator
     arguments = tokens.last
 
     if VALID_ACTIONS.include?(action)
-      case action
-      when "PLACE"
-        place(arguments)
-      when "MOVE"
-        move
-      when "LEFT"
-        left
-      when "RIGHT"
-        right
-      when "REPORT"
-        report
-      else
-        # Ignored
-      end
+      dispatch_command(action, arguments)
     else
-      # Ignored
+      "Ignored - invalid command"
     end
   end
 
   private
+
+  def dispatch_command(action, arguments)
+    case action
+    when "PLACE"
+      place(arguments)
+    when "MOVE"
+      move
+    when "LEFT"
+      left
+    when "RIGHT"
+      right
+    when "REPORT"
+      report
+    else
+      "Internal Error - command not found"
+    end
+  end
 
   def place(arguments)
     tokens = arguments.split(/,/)
@@ -45,10 +49,14 @@ class Simulator
     y = tokens[1].to_i
     orientation = tokens[2].downcase.to_sym
 
-    if @board.place!(x, y) && @robot.face!(orientation)
-      nil
+    if @board.place!(x, y)
+      if @robot.face!(orientation)
+        nil
+      else
+        "Ignored - invalid orientation"
+      end
     else
-      # Ignored
+      "Ignored - out of boundary"
     end
   end
 
@@ -57,20 +65,21 @@ class Simulator
 
     new_x = @board.position[:x] + vector[:x]
     new_y = @board.position[:y] + vector[:y]
-    if @board.place!(new_x, new_y)
-      nil
-    else
-      # Ignore, out of boundary
-    end
+
+    @board.place!(new_x, new_y)
+
+    nil # prevent to print on console
   end
 
   def left
     @robot.turn_left! if placed?
+
     nil # prevent to print on console
   end
 
   def right
     @robot.turn_right! if placed?
+
     nil # prevent to print on console
   end
 
@@ -89,7 +98,7 @@ class Simulator
     when :west
       { x: -1, y: 0 }
     else
-      # TODO: Raise error, should not happen.
+      "Internal Error - invalid orientation"
     end
   end
 
