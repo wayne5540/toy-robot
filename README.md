@@ -10,7 +10,7 @@ This project is based on [Toy Robot Test](toy-robot-test-details.md), please see
 * `git clone git@github.com:wayne5540/toy-robot.git`
 * `bundle install`
 * `cd toy-robot`
-* `ruby toy_robot/toy_robot.rb`
+* `ruby toy_robot/toy_robot.rb` or `cat commands.txt | ruby toy_robot/toy_robot.rb`
 
 ### Play with the robot
 
