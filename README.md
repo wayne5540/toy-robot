@@ -81,3 +81,8 @@ MOVE
 REPORT
 Output: `0,4,NORTH`
 ```
+
+
+## License
+
+[WTFPL](http://www.wtfpl.net/)
