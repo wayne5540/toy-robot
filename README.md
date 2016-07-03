@@ -3,16 +3,20 @@
 This project is based on [Toy Robot Test](toy-robot-test-details.md), please see details inside [toy-robot-test-details.md](toy-robot-test-details.md) file.
 
 
+## Installation
+
+Make sure you already installed ruby 2.3.0
+
+* `$ git clone git@github.com:wayne5540/toy-robot.git`
+* `$ gem install bundler`
+* `$ bundle install`
+* `$ cd toy-robot`
+* `$ ruby toy_robot/toy_robot.rb` or `$ cat commands.txt | ruby toy_robot/toy_robot.rb`
+
+
 ## Usage
 
-### Start the robot
-
-* `git clone git@github.com:wayne5540/toy-robot.git`
-* `bundle install`
-* `cd toy-robot`
-* `ruby toy_robot/toy_robot.rb` or `cat commands.txt | ruby toy_robot/toy_robot.rb`
-
-### Play with the robot
+Play with the robot
 
 Valid commands: `PLACE`, `MOVE`, `LEFT`, `RIGHT`, `REPORT`
 
@@ -53,24 +57,27 @@ Valid commands: `PLACE`, `MOVE`, `LEFT`, `RIGHT`, `REPORT`
 
 ### Example 1 - Basic simulation
 
-`ruby toy_robot/toy_robot.rb`  
-PLACE 1,2,NORTH  
-MOVE  
-LEFT  
-MOVE  
-REPORT  
+```
+$ ruby toy_robot/toy_robot.rb
+PLACE 1,2,NORTH
+MOVE
+LEFT
+MOVE
+REPORT
 Output: `0,3,WEST`
+```
 
 
 ### Example 2 - Ignores invalid command
 
-`ruby toy_robot/toy_robot.rb`  
-PLACE 1,2,NORTH  
-MOVE  
-MOVE  
-MOVE  
-MOVE  
-MOVE  
-REPORT  
+```
+$ ruby toy_robot/toy_robot.rb
+PLACE 1,2,NORTH
+MOVE
+MOVE
+MOVE
+MOVE
+MOVE
+REPORT
 Output: `0,4,NORTH`
-
+```
