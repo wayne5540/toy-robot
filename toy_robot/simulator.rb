@@ -43,10 +43,14 @@ class Simulator
   def place(arguments)
     tokens = arguments.split(/,/)
 
-    return if tokens.size != 3
+    return "Ignored - PLACE requires 3 arguments. ex: PLACE 1,2,NORTH" if tokens.size != 3
 
-    x = tokens[0].to_i
-    y = tokens[1].to_i
+    begin
+      x = Integer(tokens[0])
+      y = Integer(tokens[1])
+    rescue ArgumentError
+      return "Ignored - coordinate should be a number"
+    end
     orientation = tokens[2].downcase.to_sym
 
     if @board.place!(x, y)
